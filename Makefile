@@ -9,42 +9,15 @@
 #
 ###############################################################################
 
-PROJECT=test
+BST_FILE=GBT7714-2005.bst
+TEXMFLOCAL=$(shell get_texmf_dir.sh)
 
-.PHONY: all clean
+.PHONY: all
 
-all:	$(PROJECT).pdf
+all: install
 
-$(PROJECT).pdf: $(PROJECT).tex $(PROJECT).bib
-	xelatex $(PROJECT).tex
-	bibtex $(PROJECT)
-	xelatex $(PROJECT).tex
+###### install the bst file
 
-###### clean
-
-clean:
-	-@rm -f \
-		*.aux \
-		*.bak \
-		*.bbl \
-		*.blg \
-		*.dvi \
-		*.glo \
-		*.gls \
-		*.idx \
-		*.ilg \
-		*.ind \
-		*.ist \
-		*.log \
-		*.out \
-		*.ps \
-		*.thm \
-		*.toc \
-		*.lof \
-		*.lot \
-		*.loe \
-		*.sty \
-		*.cfg \
-		*.cls \
-		*.sty \
-		*.pdf
+install: $(BST_FILE)
+	cp -rvf $(BST_FILE) $(TEXMFLOCAL)/bibtex/bst/
+	texhash
