@@ -38,6 +38,8 @@ A GB/T 7714-2005 national standard compliant BibTeX style.
 
 ## TODO
 
+- [x] 完成BibTeX样式文件
+- [x] 完成测试文档
 - [ ] 撰写用户手册
 
 ## 相关项目
