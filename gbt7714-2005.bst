@@ -944,7 +944,7 @@ FUNCTION {output.edition} {                       % void Entry::output_edition(i
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
-FUNCTION {output.book.publisher} {                % void Entry::output_book_publiser(int required) {
+FUNCTION {output.address.publisher} {             % void Entry::output_address_publiser(int required) {
   'required :=                                    %   this.required = required;
   required {                                      %   if (required) {
     address empty$ not {                          %     if (! empty(this.address)) {
@@ -978,24 +978,27 @@ FUNCTION {output.book.publisher} {                % void Entry::output_book_publ
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
-FUNCTION {output.book.year} {                     % void Entry::output_book_year() {
+FUNCTION {output.publish.year} {                  % void Entry::output_publish_year(int required) {
+  'required :=                                    %   this.required = required;
   year empty$ not {                               %   if (! empty(this.year)) {
     year format.year write$                       %     write(format_year(this.year));
+    pages empty$ not {                            %     if (! empty(this.pages)) {
+      cap.colon write$                            %       write(cap_colon);
+      get.pages format.pages write$               %       write(format_pages(get_pages()));
+    } 'skip$ if$                                  %     }
+    is.online {                                   %     if (is_online()) {
+      citedate empty$ not {                       %       if (! empty(this.citedate)) {
+        citedate format.citedate write$           %         write(format_citedate(this.citedate));
+      } {                                         %       } else {
+        "Require citedate: " cite$ * warning$     %         warning("Require citedate: " + this.cite);
+      } if$                                       %       }
+    } 'skip$ if$                                  %     }
+    cap.period write$                             %     write(cap_period);
   } {                                             %   } else {
-    "Require year: " cite$ * warning$             %     warning("Require year: " + this.cite);
+    required {                                    %     if (required == 1) {
+      "Require year: " cite$ * warning$           %       warning("Require year: " + this.cite);
+    } 'skip$ if$                                  %     }
   } if$                                           %   }
-  pages empty$ not {                              %   if (! empty(this.pages)) {
-    cap.colon write$                              %     write(cap_colon);
-    get.pages format.pages write$                 %     write(format_pages(get_pages()));
-  } 'skip$ if$                                    %   }
-  is.online {                                     %   if (is_online()) {
-    citedate empty$ not {                         %     if (! empty(this.citedate)) {
-      citedate format.citedate write$             %       write(format_citedate(this.citedate));
-    } {                                           %     } else {
-      "Require citedate: " cite$ * warning$       %       warning("Require citedate: " + this.cite);
-    } if$                                         %     }
-  } 'skip$ if$                                    %   }
-  cap.period write$                               %   write(cap_period);
 }                                                 % }
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1068,7 +1071,7 @@ FUNCTION {output.title} {                         % void Entry::output_title() {
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
-FUNCTION {output.thesis.school} {                 % void Entry::output_thesis_school(int required) {
+FUNCTION {output.address.school} {                % void Entry::output_address_school(int required) {
   'required :=                                    %   this.required = required;
   required {                                      %   if (required) {
     address empty$ not {                          %     if (! empty(this.address)) {
@@ -1102,7 +1105,7 @@ FUNCTION {output.thesis.school} {                 % void Entry::output_thesis_sc
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
-FUNCTION {output.techreport.institution} {        % void Entry::output_techreport_institution(int required) {
+FUNCTION {output.address.institution} {           % void Entry::output_address_institution(int required) {
   'required :=                                    %   this.required = required;
   required {                                      %   if (required) {
     address empty$ not {                          %     if (! empty(this.address)) {
@@ -1134,10 +1137,71 @@ FUNCTION {output.techreport.institution} {        % void Entry::output_techrepor
   } if$                                           %   }
 }                                                 % }
                                                   %
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                  %
+FUNCTION {output.year.volume.number.range} {      % void Entry::output_year_volume_number_range(int required) {
+  'required :=                                    %   this.required = required;
+  year empty$ not {                               %   if (! empty(this.year)) {
+    year extract.before.first.dash                %     String str = extract_before_first_dash(year);
+    format.year write$                            %     write(format_year(str));
+    volume empty$ not {                           %     if (! empty(this.volume)) {
+      cap.comma write$                            %       write(cap_comma);
+      volume extract.before.first.dash            %       str = extract_before_first_dash(this.volume);
+      format.volume write$                        %       write(format_volume(str));
+    } 'skip$ if$                                  %     }
+    number empty$ not {                           %     if (! empty(this.number)) {
+      number extract.before.first.dash            %       str = extract_before_first_dash(this.number);
+      format.number write$                        %       write(format_number(str));
+    } 'skip$ if$                                  %     }
+    cap.dash write$                               %     write(cap_dash);
+    year contain.dash {                           %     if (contain_dash(this.year)) {
+      year extract.after.last.dash                %       str = extract_after_last_dash(this.year);
+      format.year write$                          %       write(format_year(str));
+      volume empty$ not {                         %       if (! empty(this.volume)) {
+        cap.comma write$                          %         write(cap_comma);
+        volume extract.after.last.dash            %         str = extract_after_last_dash(this.volume);
+        format.volume write$                      %         write(format_volume(str));
+      } 'skip$ if$                                %       }
+      number empty$ not {                         %       if (! empty(this.number)) {
+        number extract.after.last.dash            %         str = extract_after_last_dash(this.number);
+        format.number write$                      %         write(format_number(str));
+      } 'skip$ if$                                %       }
+    } 'skip$ if$                                  %     }
+    cap.period write$                             %     write(cap_period);
+  } {                                             %   } else {
+    required {                                    %     if (required == 1) {
+      "Require year: " cite$ * warning$           %       warning("Require year: " + this.cite);
+    } 'skip$ if$                                  %     }
+  } if$                                           %   }
+}                                                 % }
+                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                  %
+FUNCTION {output.publish.year.range} {            % void Entry::output_publish_year_range(int required) {
+  'required :=                                    %   this.required = required;
+  year empty$ not {                               %   if (! empty(this.year)) {
+    year extract.before.first.dash                %     String str = extract_before_first_dash(year);
+    format.year write$                            %     write(format_year(str));
+    cap.dash write$                               %     write(cap_dash);
+    year contain.dash {                           %     if (contain_dash(this.year)) {
+      year extract.after.last.dash                %       str = extract_after_last_dash(this.year);
+      format.year write$                          %       write(format_year(str));
+    } 'skip$ if$                                  %     }
+    is.online {                                   %     if (is_online()) {
+      citedate empty$ not {                       %       if (! empty(this.citedate)) {
+        citedate format.citedate write$           %         write(format_citedate(this.citedate));
+      } {                                         %       } else {
+        "Require citedate: " cite$ * warning$     %         warning("Require citedate: " + this.cite);
+      } if$                                       %       }
+    } 'skip$ if$                                  %     }
+    cap.period write$                             %     write(cap_period);
+  } {                                             %   } else {
+    required {                                    %     if (required == 1) {
+      "Require year: " cite$ * warning$           %       warning("Require year: " + this.cite);
+    } 'skip$ if$                                  %     }
+  } if$                                           %   }
+}                                                 % }
+                                                  %
 
 
 
@@ -1191,57 +1255,6 @@ FUNCTION {output.booktitle} {                     % void Entry::output_booktitle
       "No booktitle: " cite$ * warning$           %       warning("No booktitle: " + this.cite);
     } 'skip$ if$                                  %     }
   } if$                                           %   }
-}                                                 % }
-                                                  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                                  %
-FUNCTION {output.book.publication} {              % void Entry::output_book_publication(int required) {
-  'required :=                                    %   this.required = required;
-  cap.period write$                               %   write(cap_period);
-  required {                                      %   if (required) {
-    address empty$ not {                          %     if (! empty(this.address)) {
-      address format.address write$               %       write(format_address(this.address));
-    } {                                           %     } else {
-      "Require address: " cite$ * warning$        %       warning("Require address: " + this.cite);
-      cap.no.address format.address write$        %       write(format_address(cap_no_address()));
-    } if$                                         %     }
-    cap.colon write$                              %     write(cap_colon);
-    publisher empty$ not {                        %     if (! empty(this.publisher)) {
-      publisher format.publisher write$           %       write(format_publisher(this.publisher));
-    } {                                           %     } else {
-      "Require publisher: " cite$ * warning$      %       warning("Require publiser: " + this.cite);
-      cap.no.publisher format.publisher write$    %       write(format_publisher(cap_no_publisher()));
-    } if$                                         %     }
-    cap.comma write$                              %     write(cap_comma);
-  } {                                             %   } else {
-    publisher empty$ not {                        %     if (! empty(this.publisher)) {
-      address empty$ not {                        %       if (! empty(this.address)) {
-        address format.address write$             %         write(format_address(this.address));
-      } {                                         %       } else {
-        "Require address: " cite$ * warning$      %         warning("Require address: " + this.cite);
-        cap.no.address format.address write$      %         write(format_address(cap_no_address()));
-      } if$                                       %       }
-      cap.colon write$                            %       write(cap_colon);
-      publisher format.publisher write$           %       write(format_publisher(this.publisher));
-      cap.comma write$                            %       write(cap_comma);
-    } 'skip$ if$                                  %     }
-  } if$                                           %   }
-  year empty$ not {                               %   if (! empty(this.year)) {
-    year format.year write$                       %     write(format_year(this.year));
-  } {                                             %   } else {
-    "Require year: " cite$ * warning$             %     warning("Require year: " + this.cite);
-  } if$                                           %   }
-  pages empty$ not {                              %   if (! empty(this.pages)) {
-    cap.colon write$                              %     write(cap_colon);
-    get.pages format.pages write$                 %     write(format_pages(get_pages()));
-  } 'skip$ if$                                    %   }
-  is.online {                                     %   if (is_online()) {
-    citedate empty$ not {                         %     if (! empty(this.citedate)) {
-      citedate format.citedate write$             %       write(format_citedate(this.citedate));
-    } {                                           %     } else {
-      "Require citedate: " cite$ * warning$       %       warning("Require citedate: " + this.cite);
-    } if$                                         %     }
-  } 'skip$ if$                                    %   }
 }                                                 % }
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1437,8 +1450,8 @@ FUNCTION {book} {                                 % void Entry::book() {
   true output.book.title                          %   output_book_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  true output.book.publisher                      %   output_book_publisher(true);
-  output.book.year                                %   output_book_year();
+  true output.address.publisher                   %   output_address_publisher(true);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1452,8 +1465,8 @@ FUNCTION {collection} {                           % void Entry::collection() {
   true output.book.title                          %   output_book_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  true output.book.publisher                      %   output_book_publisher(true);
-  output.book.year                                %   output_book_year();
+  true output.address.publisher                   %   output_address_publisher(true);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1467,8 +1480,8 @@ FUNCTION {proceedings} {                          % void Entry::proceedings() {
   true output.book.title                          %   output_book_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  false output.book.publisher                     %   output_book_publisher(false);
-  output.book.year                                %   output_book_year();
+  false output.address.publisher                  %   output_address_publisher(false);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1486,8 +1499,8 @@ FUNCTION {thesis.impl} {                          % void Entry::thesis_impl() {
   true output.author                              %   output_author(true);
   true output.title                               %   output_title(true);
   false output.translator                         %   output_translator(false);
-  true output.thesis.school                       %   output_thesis_school(true);
-  output.book.year                                %   output_book_year();
+  true output.address.school                      %   output_address_school(true);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1521,8 +1534,8 @@ FUNCTION {techreport} {                           % void Entry::techreport() {
   true output.title                               %   output_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  false output.techreport.institution             %   output_techreport_institution(false);
-  output.book.year                                %   output_book_year();
+  false output.address.institution                %   output_address_institution(false);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1536,8 +1549,8 @@ FUNCTION {standard} {                             % void Entry::standard() {
   true output.title                               %   output_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  false output.book.publisher                     %   output_book_publisher(false);
-  output.book.year                                %   output_book_year();
+  false output.address.publisher                  %   output_address_publisher(false);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1551,8 +1564,8 @@ FUNCTION {reference} {                            % void Entry::reference() {
   true output.title                               %   output_title(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  false output.book.publisher                     %   output_book_publisher(false);
-  output.book.year                                %   output_book_year();
+  false output.address.publisher                  %   output_address_publisher(false);
+  true output.publish.year                        %   output_publish_year(true);
   false output.url                                %   output_url(false);
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
@@ -1563,14 +1576,58 @@ FUNCTION {manual} {                               % void Entry::manual() {
   reference                                       %   reference();
 }                                                 % }
                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                  %
+FUNCTION {periodical} {                           % void Entry::periodical() {
+  "J" set.mark                                    %   set_mark("J");
+  start.bibitem                                   %   start_bibitem();
+  false output.author                             %   output_author(false);
+  true output.title                               %   output_title(true);
+  true output.year.volume.number.range            %   output_year_volume_number_range(true);
+  true output.address.publisher                   %   output_address_publisher(true);
+  true output.publish.year.range                  %   output_publish_year_range(true);
+  false output.url                                %   output_url(false);
+  end.bibitem                                     %   end_bibitem();
+}                                                 % }
+                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                  %
+FUNCTION {newspaper} {                            % void Entry::newspaper() {
+  "N" set.mark                                    %   set_mark("N");
+  start.bibitem                                   %   start_bibitem();
+  false output.author                             %   output_author(false);
+  true output.title                               %   output_title(true);
+  true output.year.volume.number.range            %   output_year_volume_number_range(true);
+  true output.address.publisher                   %   output_address_publisher(true);
+  true output.publish.year.range                  %   output_publish_year_range(true);
+  false output.url                                %   output_url(false);
+  end.bibitem                                     %   end_bibitem();
+}                                                 % }
+                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                  %
+FUNCTION {patent} {                               % void Entry::patent() {
+  "P" set.mark                                    %   set_mark("P");
+  start.bibitem                                   %   start_bibitem();
+  true output.author                              %   output_author(true);
+  true output.title                               %   output_title(true);
 
-
-
-
-
-
-
-
+  cap.colon write$                                %   write(cap_colon);
+  true output.country                             %   output_country(true);
+  cap.comma write$                                %   write(cap_comma);
+  true output.patentid                            %   output_patentid(true);
+  true output.mark                                %   output_mark(true);
+  cap.period write$                               %   write(cap_period);
+  true output.date                                %   output_date(true);
+  is.online {                                     %   if (is_online()) {
+    true output.citedate                          %     output_citedate(true);
+    cap.period write$                             %     write(cap_period);
+    true output.url                               %     output_url(true);
+  } 'skip$ if$                                    %   }
+  cap.period write$                               %   write(cap_period);
+  end.bibitem                                     %   end_bibitem();
+}                                                 % }
+                                                  %
 
 
 
@@ -1637,69 +1694,7 @@ FUNCTION {incollection} {                         % void Entry::incollection() {
 }                                                 % }
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                                  %
-FUNCTION {periodical} {                           % void Entry::periodical() {
-  "J" set.mark                                    %   set_mark("J");
-  start.bibitem                                   %   start_bibitem();
-  true output.author                              %   output_author(true);
-  cap.period write$                               %   write(cap_period);
-  true output.title                               %   output_title(true);
-  true output.mark                                %   output_mark(true);
-  cap.period write$                               %   write(cap_period);
-  year empty$ not {                               %   if (! empty(this.year)) {
-    year extract.before.first.dash                %     String tmp = extract_before_first_dash(year);
-    format.year write$                            %     write(format_year(tmp));
-  } {                                             %   } else {
-    "No year: " cite$ * warning$                  %     warning("No year: " + this.cite);
-  } if$                                           %   }
-  volume empty$ not {                             %   if (! empty(this.volume)) {
-    cap.comma write$                              %     write(cap_comma);
-    volume extract.before.first.dash              %     String tmp = extract_before_first_dash(this.volume);
-    format.volume write$                          %     write(format_volume(tmp));
-  } 'skip$ if$                                    %   }
-  number empty$ not {                             %   if (! empty(this.number)) {
-    number extract.before.first.dash              %     String tmp = extract_before_first_dash(this.number);
-    format.number write$                          %     write(format_number(tmp));
-  } 'skip$ if$                                    %   }
-  cap.dash write$                                 %   write(cap_dash);
-  year contain.dash {                             %   if (contain_dash(this.year)) {
-    year extract.after.last.dash                  %     String tmp = extract_after_last_dash(this.year);
-    format.year write$                            %     write(format_year(tmp));
-    volume empty$ not {                           %     if (! empty(this.volume)) {
-      cap.comma write$                            %       write(cap_comma);
-      volume extract.after.last.dash              %       tmp = extract_after_last_dash(this.volume);
-      format.volume write$                        %       write(format_volume(tmp));
-    } 'skip$ if$                                  %     }
-    number empty$ not {                           %     if (! empty(this.number)) {
-      number extract.after.last.dash              %       tmp = extract_after_last_dash(this.number);
-      format.number write$                        %       write(format_number(tmp));
-    } 'skip$ if$                                  %     }
-  } 'skip$ if$                                    %   }
-  cap.period write$                               %   write(cap_period);
-  publisher empty$ not {                          %   if (! empty(this.publisher)) {
-    true output.address                           %     output_address(true);
-    cap.colon write$                              %     write(cap_colon);
-    true output.publisher                         %     output_publiser(true);
-    cap.comma write$                              %     write(cap_comma);
-  } {                                             %   } else {
-    "No publisher: " cite$ * warning$             %     warning("No publisher: " + this.cite);
-  } if$                                           %   }
-  year extract.before.first.dash                  %   String tmp = extract_before_first_dash(year);
-  format.year write$                              %   write(format_year(tmp));
-  cap.dash write$                                 %   write(cap_dash);
-  year contain.dash {                             %   if (contain_dash(this.year)) {
-    year extract.after.last.dash                  %     String tmp = extract_after_last_dash(year);
-    format.year write$                            %     write(format_year(tmp));
-  } 'skip$ if$                                    %   }
-  is.online {                                     %   if (is_online()) {
-    true output.citedate                          %     output_citedate(true);
-    cap.period write$                             %     write(cap_period);
-    true output.url                               %     output_url(true);
-  } 'skip$ if$                                    %   }
-  cap.period write$                               %   write(cap_period);
-  end.bibitem                                     %   end_bibitem();
-}                                                 % }
-                                                  %
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
 FUNCTION {article} {                              % void Entry::article() {
@@ -1796,63 +1791,7 @@ FUNCTION {news} {                                 % void Entry::news() {
 }                                                 % }
                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                                  %
-FUNCTION {reference} {                            % void Entry::reference() {
-  "K" set.mark                                    %   set_mark("K");
-  start.bibitem                                   %   start_bibitem();
-  author empty$ not {                             %   if (! empty(this.author)) {
-    author format.author write$                   %     write(format_author(this.author));
-    cap.period write$                             %     write(cap_period);
-  } 'skip$ if$                                    %   }
 
-  title empty$ not {                              %   if (! empty(this.title)) {
-    series empty$ {                               %     if (empty(this.series)) {
-      title format.booktitle write$               %       write(format_booktitle(this.title));
-    } {                                           %     } else {
-      title cap.colon * series *                  %       String str = this.title + cap_colon + this.series;
-      format.booktitle write$                     %       write(format_booktitle(str));
-    } if$                                         %     }
-  } {                                             %   } else {
-    required {                                    %     if (required == 1) {
-      "No title: " cite$ * warning$               %       warning("No title: " + this.cite);
-    } 'skip$ if$                                  %     }
-  } if$                                           %   }
-  true output.mark                                %   output_mark(true);
-  cap.period write$                               %   write(cap_period);
-  author empty$ not editor empty$ not and {       %   if ((! empty(this.author)) && (! empty(this.editor))) {
-    true output.editor                            %     output_editor(true);
-    cap.period write$                             %     write(cap_period);
-  } 'skip$ if$                                    %   }
-  translator empty$ not {                         %   if (! empty(this.translator)) {
-    true output.translator                        %     output_translator(true);
-    cap.period write$                             %     write(cap_period);
-  } 'skip$ if$                                    %   }
-  edition empty$ not {                            %   if (! empty(this.edition)) {
-    true output.edition                           %     output_edition(true);
-    cap.period write$                             %     write(cap_period);
-  } 'skip$ if$                                    %   }
-  publisher empty$ not {                          %   if (! empty(this.publisher)) {
-    true output.address                           %     output_address(true);
-    cap.colon write$                              %     write(cap_colon);
-    true output.publisher                         %     output_publiser(true);
-    cap.comma write$                              %     write(cap_comma);
-  } {                                             %   } else {
-    "No publisher: " cite$ * warning$             %     warning("No publisher: " + this.cite);
-  } if$                                           %   }
-  true output.year                                %   output_year(true);
-  pages empty$ not {                              %   if (! empty(this.pages)) {
-    cap.colon write$                              %     write(cap_colon);
-    true output.pages                             %     output_pages(true);
-  } 'skip$ if$                                    %   }
-  is.online {                                     %   if (is_online()) {
-    true output.citedate                          %     output_citedate(true);
-    cap.period write$                             %     write(cap_period);
-    true output.url                               %     output_url(true);
-  } 'skip$ if$                                    %   }
-  cap.period write$                               %   write(cap_period);
-  end.bibitem                                     %   end_bibitem();
-}                                                 % }
-                                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
 FUNCTION {online} {                               % void Entry::online() {
@@ -1883,30 +1822,7 @@ FUNCTION {online} {                               % void Entry::online() {
   end.bibitem                                     %   end_bibitem();
 }                                                 % }
                                                   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                                  %
-FUNCTION {patent} {                               % void Entry::patent() {
-  "P" set.mark                                    %   set_mark("P");
-  start.bibitem                                   %   start_bibitem();
-  true output.author                              %   output_author(true);
-  cap.period write$                               %   write(cap_period);
-  true output.title                               %   output_title(true);
-  cap.colon write$                                %   write(cap_colon);
-  true output.country                             %   output_country(true);
-  cap.comma write$                                %   write(cap_comma);
-  true output.patentid                            %   output_patentid(true);
-  true output.mark                                %   output_mark(true);
-  cap.period write$                               %   write(cap_period);
-  true output.date                                %   output_date(true);
-  is.online {                                     %   if (is_online()) {
-    true output.citedate                          %     output_citedate(true);
-    cap.period write$                             %     write(cap_period);
-    true output.url                               %     output_url(true);
-  } 'skip$ if$                                    %   }
-  cap.period write$                               %   write(cap_period);
-  end.bibitem                                     %   end_bibitem();
-}                                                 % }
-                                                  %
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
 FUNCTION {program} {                              % void Entry::program() {
