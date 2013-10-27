@@ -22,7 +22,6 @@ all: test
 test: $(TEST).pdf
 
 $(TEST).pdf: $(TEST).tex $(TEST).bib $(BST_DIR)/$(BST)
-	cp -fv $(BST_DIR)/$(BST)  $(BST)
 	xelatex $(TEST).tex
 	bibtex $(TEST)
 	xelatex $(TEST).tex

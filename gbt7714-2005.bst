@@ -1341,9 +1341,13 @@ FUNCTION {book.impl} {                            % void Entry::book_impl() {
   true output.mark                                %   output_mark(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  true output.address                             %   output_address(true);
-  true output.publisher                           %   output_publisher(true);
-  cap.comma write$                                %   write(cap_comma);
+  publisher empty$ not {                          %   if (! empty(this.publisher)) {
+    true output.address                           %     output_address(true);
+    true output.publisher                         %     output_publisher(true);
+    cap.comma write$                              %     write(cap_comma);
+  } {                                             %   } else {
+    cap.period write$                             %     write(cap_period);
+  } if$                                           %   }
   true output.year                                %   output_year(true);
   false output.pages                              %   output_pages(false);
   false output.citedate                           %   output_citedate(false);
@@ -1375,9 +1379,13 @@ FUNCTION {proceedings} {                          % void Entry::proceedings() {
   true output.mark                                %   output_mark(true);
   false output.translator                         %   output_translator(false);
   false output.edition                            %   output_edition(false);
-  true output.address                             %   output_address(true);
-  true output.publisher                           %   output_publisher(true);
-  cap.comma write$                                %   write(cap_comma);
+  publisher empty$ not {                          %   if (! empty(this.publisher)) {
+    true output.address                           %     output_address(true);
+    true output.publisher                         %     output_publisher(true);
+    cap.comma write$                              %     write(cap_comma);
+  } {                                             %   } else {
+    cap.period write$                             %     write(cap_period);
+  } if$                                           %   }
   true output.year                                %   output_year(true);
   false output.pages                              %   output_pages(false);
   false output.citedate                           %   output_citedate(false);
@@ -1525,9 +1533,13 @@ FUNCTION {periodical.impl} {                      % void Entry::periodical_impl(
     false output.end.volume                       %     output_end_volume(false);
     false output.end.number                       %     output_end_number(false);
   } 'skip$ if$                                    %   }
-  true output.address                             %   output_address(true);
-  true output.publisher                           %   output_publisher(true);
-  cap.comma write$                                %   write(cap_comma);
+  publisher empty$ not {                          %   if (! empty(this.publisher)) {
+    true output.address                           %     output_address(true);
+    true output.publisher                         %     output_publisher(true);
+    cap.comma write$                              %     write(cap_comma);
+  } {                                             %   } else {
+    cap.period write$                             %     write(cap_period);
+  } if$                                           %   }
   true output.start.year                          %   output_start_year(true);
   cap.dash write$                                 %   write(cap_dash);
   year contain.dash {                             %   if (contain_dash(this.year)) {
@@ -1658,9 +1670,13 @@ FUNCTION {inbook.impl} {                          % void Entry::inbook_impl() {
   true output.editor                              %   output_editor(true);
   true output.series.volume.booktitle             %   output_series_volume_booktitle(true);
   false output.edition                            %   output_edition(false);
-  true output.address                             %   output_address(true);
-  true output.publisher                           %   output_publisher(true);
-  cap.comma write$                                %   write(cap_comma);
+  publisher empty$ not {                          %   if (! empty(this.publisher)) {
+    true output.address                           %     output_address(true);
+    true output.publisher                         %     output_publisher(true);
+    cap.comma write$                              %     write(cap_comma);
+  } {                                             %   } else {
+    cap.period write$                             %     write(cap_period);
+  } if$                                           %   }
   true output.year                                %   output_year(true);
   false output.pages                              %   output_pages(false);
   false output.citedate                           %   output_citedate(false);
