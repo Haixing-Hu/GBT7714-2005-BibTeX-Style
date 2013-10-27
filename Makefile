@@ -9,7 +9,7 @@
 #
 ###############################################################################
 
-BST_FILE=GBT7714-2005.bst
+BST_FILE=gbt7714-2005.bst
 TEXMFLOCAL=$(shell get_texmf_dir.sh)
 
 .PHONY: all
