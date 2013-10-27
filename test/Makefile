@@ -10,6 +10,8 @@
 ###############################################################################
 
 TEST=test
+BST_DIR=..
+BST=gbt7714-2005.bst
 
 .PHONY: all clean
 
@@ -19,7 +21,8 @@ all: test
 
 test: $(TEST).pdf
 
-$(TEST).pdf: $(TEST).tex $(TEST).bib
+$(TEST).pdf: $(TEST).tex $(TEST).bib $(BST_DIR)/$(BST)
+	cp -fv $(BST_DIR)/$(BST)  $(BST)
 	xelatex $(TEST).tex
 	bibtex $(TEST)
 	xelatex $(TEST).tex
