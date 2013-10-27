@@ -11,6 +11,29 @@ A GB/T 7714-2005 national standard compliant BibTeX style.
 - 有[测试文档][test]，经过了详细的测试；
 - 有详细的[用户手册][manual]。
 
+## 支持的文献类型
+
+- 书籍：`book`
+- 汇编：`collection`
+- 会议录：`proceedings`或`conference`
+- 学位论文：`phdthesis`、`masterthesis`或`bachelorthesis`
+- 科技报告：`techreport`
+- 技术标准：`standard`
+- 参考工具：`reference`
+- 手册：`manual`
+- 未发表文献：`unpublished`或`manuscript`
+- 期刊：`periodical`
+- 报纸：`newspaper`
+- 专利：`patent`
+- 网页：`online`
+- 计算机程序：`program`
+- 数据库：`database`
+- 书籍中的析出文献：`inbook`
+- 汇编中的析出文献：`incollection`
+- 会议录中的析出文献（会议论文）：`inproceedings`
+- 期刊中的析出文献（期刊论文）：`article`
+- 新闻报道：`news`
+
 ## 下载
 
 - [下载tar.gz压缩包][targz]，适合Linux/Mac用户
