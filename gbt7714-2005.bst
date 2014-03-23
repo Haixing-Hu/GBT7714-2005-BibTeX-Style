@@ -1667,7 +1667,7 @@ FUNCTION {inbook.impl} {                          % void Entry::inbook_impl() {
   true output.mark                                %   output_mark(true);
   false output.translator                         %   output_translator(false);
   cap.double.slash write$                         %   write(cap_double_slash);
-  true output.editor                              %   output_editor(true);
+  false output.editor                             %   output_editor(false);
   true output.series.volume.booktitle             %   output_series_volume_booktitle(true);
   false output.edition                            %   output_edition(false);
   publisher empty$ not {                          %   if (! empty(this.publisher)) {
