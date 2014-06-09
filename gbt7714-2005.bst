@@ -13,14 +13,19 @@
 %  [3] PATASHNIK O. Designing BibTeX Styles[R/OL]. 1998[2013-08-27].
 %      ftp://tug.ctan.org/pub/tex-archive/biblio/bibtex/contrib/doc/btxhak.pdf
 %
-%  This file may be distributed and/or modified under the conditions of the
-%  LaTeX Project Public License, either version 1.2 of this license or (at your
-%  option) any later version. The latest version of this license is in:
+%    This program is free software; you can redistribute it and/or modify
+%    it under the terms of the GNU General Public License as published by
+%    the Free Software Foundation; either version 2 of the License, or
+%    (at your option) any later version.
 %
-%  http://www.latex-project.org/lppl.txt
+%    This program is distributed in the hope that it will be useful,
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%    GNU General Public License for more details.
 %
-%  and version 1.2 or later is part of all distributions of LaTeX version
-%  1999/12/01 or later.
+%    You should have received a copy of the GNU General Public License along
+%    with this program; if not, write to the Free Software Foundation, Inc.,
+%    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
