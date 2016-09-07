@@ -52,7 +52,7 @@ ENTRY                                             % class Entry {
   series                                          %   String series;
   volume                                          %   String volume;
   number                                          %   String number;
-  version 										  %	  String version;
+  version                                         %   String version;
   month                                           %   String month;
   school                                          %   String school;
   institution                                     %   String institution;
@@ -94,63 +94,63 @@ STRINGS {                                         % //  declare global String va
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % define global static constants
-FUNCTION {true} 				{#1}
-FUNCTION {false} 				{#0}
-FUNCTION {debug.enabled} 		{true}
-FUNCTION {cap.volume.en} 		{"Vol~"}
-FUNCTION {cap.volume.zh} 		{"卷"}
-FUNCTION {cap.edition.en} 		{"~ed"}
-FUNCTION {cap.edition.zh} 		{"版"}
-FUNCTION {cap.anonymous.en} 	{"Anon"}
-FUNCTION {cap.anonymous.zh} 	{"佚名"}
-FUNCTION {cap.no.address.en} 	{"[S.l.]"}
-FUNCTION {cap.no.address.zh} 	{"[出版地不详]"}
-FUNCTION {cap.no.publisher.en} 	{"[s.n.]"}
-FUNCTION {cap.no.publisher.zh} 	{"[出版者不详]"}
-FUNCTION {cap.et.al.en} 		{", et~al"}
-FUNCTION {cap.et.al.zh} 		{", 等"}
-FUNCTION {cap.translate.en} 	{"~trans"}
-FUNCTION {cap.translate.zh} 	{"译"}
-FUNCTION {cap.doi.url} 			{"http://dx.doi.org/"}
-FUNCTION {cap.st.en} 			{"st"}
-FUNCTION {cap.nd.en} 			{"nd"}
-FUNCTION {cap.rd.en} 			{"rd"}
-FUNCTION {cap.th.en} 			{"th"}
+FUNCTION {true}                {#1}
+FUNCTION {false}               {#0}
+FUNCTION {debug.enabled}       {true}
+FUNCTION {cap.volume.en}       {"Vol~"}
+FUNCTION {cap.volume.zh}       {"卷"}
+FUNCTION {cap.edition.en}      {"~ed"}
+FUNCTION {cap.edition.zh}      {"版"}
+FUNCTION {cap.anonymous.en}    {"Anon"}
+FUNCTION {cap.anonymous.zh}    {"佚名"}
+FUNCTION {cap.no.address.en}   {"[S.l.]"}
+FUNCTION {cap.no.address.zh}   {"[出版地不详]"}
+FUNCTION {cap.no.publisher.en} {"[s.n.]"}
+FUNCTION {cap.no.publisher.zh} {"[出版者不详]"}
+FUNCTION {cap.et.al.en}        {", et~al"}
+FUNCTION {cap.et.al.zh}        {", 等"}
+FUNCTION {cap.translate.en}    {"~trans"}
+FUNCTION {cap.translate.zh}    {"译"}
+FUNCTION {cap.doi.url}         {"http://dx.doi.org/"}
+FUNCTION {cap.st.en}           {"st"}
+FUNCTION {cap.nd.en}           {"nd"}
+FUNCTION {cap.rd.en}           {"rd"}
+FUNCTION {cap.th.en}           {"th"}
 
-FUNCTION {cap.space}      {" "}
-FUNCTION {cap.period} 		{"\@. "}
-FUNCTION {cap.comma} 			{"\@, "}
-FUNCTION {cap.colon} 			{"\thinspace{}\textnormal{: }"}
-FUNCTION {cap.double.slash} 	{" //\thinspace{}"}
-FUNCTION {cap.dash} 			{"\thinspace{}\textnormal{--}\thinspace{}"}
+FUNCTION {cap.space}        {" "}
+FUNCTION {cap.period}       {"\@. "}
+FUNCTION {cap.comma}        {"\@, "}
+FUNCTION {cap.colon}        {"\thinspace{}\textnormal{: }"}
+FUNCTION {cap.double.slash} {" //\thinspace{}"}
+FUNCTION {cap.dash}         {"\thinspace{}\textnormal{--}\thinspace{}"}
 
 % Predefined latex command used to format the style of bibitems
-FUNCTION {env.bibbegin} 		{ "\begin{thebibliography}" }
-FUNCTION {env.bibend}   		{ "\end{thebibliography}" }
-FUNCTION {cmd.bibauthor} 		{ "\providecommand{\bibauthor}[1]{#1}" }
-FUNCTION {cmd.bibeditor} 		{ "\providecommand{\bibeditor}[1]{#1}" }
-FUNCTION {cmd.bibtranslator} 	{ "\providecommand{\bibtranslator}[1]{#1}" }
-FUNCTION {cmd.bibtitle} 		{ "\providecommand{\bibtitle}[1]{#1}" }
-FUNCTION {cmd.bibbooktitle} 	{ "\providecommand{\bibbooktitle}[1]{#1}" }
-FUNCTION {cmd.bibjournal} 		{ "\providecommand{\bibjournal}[1]{#1}" }
-FUNCTION {cmd.bibmark} 			{ "\providecommand{\bibmark}[1]{#1}" }
-FUNCTION {cmd.bibcountry} 		{ "\providecommand{\bibcountry}[1]{#1}" }
-FUNCTION {cmd.bibpatentid} 		{ "\providecommand{\bibpatentid}[1]{#1}" }
-FUNCTION {cmd.bibedition} 		{ "\providecommand{\bibedition}[1]{#1}" }
-FUNCTION {cmd.biborganization} 	{ "\providecommand{\biborganization}[1]{#1}" }
-FUNCTION {cmd.bibaddress} 		{ "\providecommand{\bibaddress}[1]{#1}" }
-FUNCTION {cmd.bibpublisher} 	{ "\providecommand{\bibpublisher}[1]{#1}" }
-FUNCTION {cmd.bibinstitution}	{ "\providecommand{\bibinstitution}[1]{#1}" }
-FUNCTION {cmd.bibschool} 		{ "\providecommand{\bibschool}[1]{#1}" }
-FUNCTION {cmd.bibvolume} 		{ "\providecommand{\bibvolume}[1]{#1}" }
-FUNCTION {cmd.bibnumber} 		{ "\providecommand{\bibnumber}[1]{#1}" }
-FUNCTION {cmd.bibversion} 		{ "\providecommand{\bibversion}[1]{#1}" }
-FUNCTION {cmd.bibpages} 		{ "\providecommand{\bibpages}[1]{#1}" }
-FUNCTION {cmd.bibmodifydate}	{ "\providecommand{\bibmodifydate}[1]{#1}" }
-FUNCTION {cmd.bibcitedate} 		{ "\providecommand{\bibcitedate}[1]{#1}" }
-FUNCTION {cmd.bibyear} 			{ "\providecommand{\bibyear}[1]{#1}" }
-FUNCTION {cmd.bibdate} 			{ "\providecommand{\bibdate}[1]{#1}" }
-FUNCTION {cmd.biburl} 			{ "\providecommand{\biburl}[1]{\newline\url{#1}}" }
+FUNCTION {env.bibbegin}        { "\begin{thebibliography}" }
+FUNCTION {env.bibend}          { "\end{thebibliography}" }
+FUNCTION {cmd.bibauthor}       { "\providecommand{\bibauthor}[1]{#1}" }
+FUNCTION {cmd.bibeditor}       { "\providecommand{\bibeditor}[1]{#1}" }
+FUNCTION {cmd.bibtranslator}   { "\providecommand{\bibtranslator}[1]{#1}" }
+FUNCTION {cmd.bibtitle}        { "\providecommand{\bibtitle}[1]{#1}" }
+FUNCTION {cmd.bibbooktitle}    { "\providecommand{\bibbooktitle}[1]{#1}" }
+FUNCTION {cmd.bibjournal}      { "\providecommand{\bibjournal}[1]{#1}" }
+FUNCTION {cmd.bibmark}         { "\providecommand{\bibmark}[1]{#1}" }
+FUNCTION {cmd.bibcountry}      { "\providecommand{\bibcountry}[1]{#1}" }
+FUNCTION {cmd.bibpatentid}     { "\providecommand{\bibpatentid}[1]{#1}" }
+FUNCTION {cmd.bibedition}      { "\providecommand{\bibedition}[1]{#1}" }
+FUNCTION {cmd.biborganization} { "\providecommand{\biborganization}[1]{#1}" }
+FUNCTION {cmd.bibaddress}      { "\providecommand{\bibaddress}[1]{#1}" }
+FUNCTION {cmd.bibpublisher}    { "\providecommand{\bibpublisher}[1]{#1}" }
+FUNCTION {cmd.bibinstitution}  { "\providecommand{\bibinstitution}[1]{#1}" }
+FUNCTION {cmd.bibschool}       { "\providecommand{\bibschool}[1]{#1}" }
+FUNCTION {cmd.bibvolume}       { "\providecommand{\bibvolume}[1]{#1}" }
+FUNCTION {cmd.bibnumber}       { "\providecommand{\bibnumber}[1]{#1}" }
+FUNCTION {cmd.bibversion}      { "\providecommand{\bibversion}[1]{#1}" }
+FUNCTION {cmd.bibpages}        { "\providecommand{\bibpages}[1]{#1}" }
+FUNCTION {cmd.bibmodifydate}   { "\providecommand{\bibmodifydate}[1]{#1}" }
+FUNCTION {cmd.bibcitedate}     { "\providecommand{\bibcitedate}[1]{#1}" }
+FUNCTION {cmd.bibyear}         { "\providecommand{\bibyear}[1]{#1}" }
+FUNCTION {cmd.bibdate}         { "\providecommand{\bibdate}[1]{#1}" }
+FUNCTION {cmd.biburl}          { "\providecommand{\biburl}[1]{\newline\url{#1}}" }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                                   %
@@ -1228,7 +1228,7 @@ FUNCTION {output.number} {                        % void Entry::output_number(in
 FUNCTION {output.report.number} {                 % void Entry::output_report_number(int required) {
   'required :=                                    %   this.required = required;
   number empty$ not {                             %   if (! empty(this.number)) {
-  	cap.colon write$                              %     write(cap_colon);
+      cap.colon write$                              %     write(cap_colon);
     number format.report.number write$            %     write(format_report_number(this.number));
   } {                                             %   } else {
     required {                                    %     if (required == 1) {
