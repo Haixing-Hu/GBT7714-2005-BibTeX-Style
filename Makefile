@@ -10,7 +10,7 @@
 ###############################################################################
 
 BST_FILE=gbt7714-2005.bst
-TEXMFLOCAL=$(shell get_texmf_dir.sh)
+TEXMFLOCAL=$(shell ./get_texmf_dir.sh)
 
 .PHONY: all
 
@@ -19,5 +19,6 @@ all: install
 ###### install the bst file
 
 install: $(BST_FILE)
+	mkdir -p $(TEXMFLOCAL)/bibtex/bst/
 	cp -rvf $(BST_FILE) $(TEXMFLOCAL)/bibtex/bst/
 	texhash
